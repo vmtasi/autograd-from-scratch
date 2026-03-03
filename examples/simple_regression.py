@@ -25,7 +25,7 @@ print("Starting training with custom Autograd engine...")
 for epoch in range(epochs):
     pred = X.__matmul__(W) + B
 
-    diff = pred + (Y * -1.0)
+    diff = pred + (Y * -2.0)
     loss = (diff * diff).mean()
     
     W.zero_grad()
