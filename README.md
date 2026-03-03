@@ -1,57 +1,69 @@
 # Autograd From Scratch
 
-This repository contains a small automatic differentiation (autograd) engine implemented from scratch.  
-The goal of this project is to understand how gradient computation works internally in libraries like PyTorch, rather than relying on their built-in autograd systems.
+This repository contains a small automatic differentiation (autograd) engine implemented from scratch using NumPy.
 
-This is a learning-focused project. It is not meant to be fast, complete, or production-ready.
+The goal of this project is to understand how computational graphs are built and how gradients are propagated using reverse-mode automatic differentiation, rather than relying on existing framework implementations.
+
+
+
+## Project Overview
+
+The engine builds a dynamic computational graph during the forward pass and computes gradients by explicitly traversing this graph in reverse order during the backward pass. All gradient computations are implemented manually using the chain rule.
+
 
 ---
 
-## Why I built this
+## Project Structure
 
-I wanted to move beyond *using* autograd and understand:
-- how computational graphs are constructed during the forward pass
-- how gradients are propagated backward using the chain rule
-- why design choices in autograd systems affect training behavior
+```text
+autograd-from-scratch/
+├── autograd/
+│   ├── tensor.py      # Tensor abstraction and operator overloading
+│   ├── ops.py         # Operation-specific forward and backward rules
+│   └── backward.py   # Backpropagation engine (topological sort)
+├── examples/
+│   └── simple_regression.py  # Linear regression using custom autograd
+```
 
-Implementing a minimal version helped make these ideas concrete.
+## How It Works
 
-## Project structure
+1. During the forward pass, each operation creates a new Tensor and records references to its parent tensors.
+2. These relationships form a directed acyclic computational graph.
+3. Calling `.backward()` on the final output triggers a topological traversal of the graph and gradient propagation using the chain rule.
+4. Gradients are accumulated at each tensor, allowing correct handling of shared subgraphs.
 
-
-<p data-start="1375" data-end="1561">autograd-from-scratch/<br>
-├── autograd/<br>
-│   ├── tensor.py<br>
-│   ├── ops.py<br>
-│   └── backward.py<br>
-├── examples/<br>
-│   └── simple_regression.py<br>
-├── notes/<br>
-│   └── autograd_study.ipynb<br>
-└── README.md</p>
-
-
-The notebook in `notes/` was used for experimentation and comparison with PyTorch autograd.
+The backward pass assumes a scalar loss.
 
 ---
 
-## How it works (high level)
+## Example Usage
 
-During the forward pass, each operation records how its output depends on its inputs.  
-These relationships form a computational graph.
+from autograd.tensor import Tensor
 
-When `.backward()` is called on the final output (typically a loss), the graph is traversed in reverse order and gradients are computed using the chain rule.
+x = Tensor([3.0], requires_grad=True)  
+y = (x * x) + (x * 2.0)
 
-Gradients are accumulated at each node as the backward pass progresses.
+y.backward()
+
+print("Gradient:", x.grad)  # Expected: 8.0
+
+---
+
+## Verification
+
+To validate the implementation, the engine was tested on simple algebraic expressions with shared subgraphs and on linear regression trained using mean squared error loss and gradient descent. In all cases, computed gradients matched analytical expectations.
+
+---
 
 ## Limitations
 
-To keep the implementation simple:
-- only a small set of operations is supported
-- no GPU support
-- limited handling of edge cases (e.g. broadcasting)
+- Designed for educational clarity, not performance
+- CPU-only (NumPy backend)
+- Limited set of supported operations
+- No full broadcasting or advanced memory optimizations
 
+---
 
 ## Notes
 
-I built this to improve my understanding of how automatic differentiation works under the hood.
+This project was built to deepen understanding of how automatic differentiation systems work internally.
