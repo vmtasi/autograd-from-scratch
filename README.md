@@ -31,14 +31,18 @@ Implementing a minimal version helped make these ideas concrete.
 
 
 autograd-from-scratch/
+│
 ├── autograd/
-│ ├── tensor.py
-│ ├── ops.py
-│ └── backward.py
+│   ├── tensor.py      # Core Tensor class and basic operations
+│   ├── ops.py         # Primitive ops (add, mul,...)
+│   └── backward.py    # Backpropagation and topological traversal
+│
 ├── examples/
-│ └── simple_regression.py
+│   └── simple_regression.py  # Linear regression using custom autograd
+│
 ├── notes/
-│ └── autograd_study.ipynb
+│   └── autograd_study.ipynb  # Exploratory study using PyTorch autograd
+│
 └── README.md
 
 
