@@ -16,17 +16,6 @@ I wanted to move beyond *using* autograd and understand:
 
 Implementing a minimal version helped make these ideas concrete.
 
----
-
-## What’s included
-
-- A simple `Tensor` abstraction that stores data, gradients, and links to parent nodes
-- Basic operations (e.g. addition, multiplication, matrix multiplication)
-- Manual backpropagation using reverse-mode automatic differentiation
-- A small example showing linear regression built on top of the custom autograd engine
-
----
-
 ## Project structure
 
 
@@ -55,8 +44,6 @@ When `.backward()` is called on the final output (typically a loss), the graph i
 
 Gradients are accumulated at each node as the backward pass progresses.
 
----
-
 ## Limitations
 
 To keep the implementation simple:
@@ -64,11 +51,7 @@ To keep the implementation simple:
 - no GPU support
 - limited handling of edge cases (e.g. broadcasting)
 
-These limitations are intentional and aligned with the learning goal of the project.
-
----
 
 ## Notes
 
-This project was built to improve my understanding of how automatic differentiation works under the hood.  
-For real-world training and performance, established frameworks like PyTorch should be used instead.
+I built this to improve my understanding of how automatic differentiation works under the hood.
