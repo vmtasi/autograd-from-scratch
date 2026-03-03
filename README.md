@@ -30,20 +30,16 @@ Implementing a minimal version helped make these ideas concrete.
 ## Project structure
 
 
-autograd-from-scratch/
-│
-├── autograd/
-│   ├── tensor.py      # Core Tensor class and basic operations
-│   ├── ops.py         # Primitive ops (add, mul,...)
-│   └── backward.py    # Backpropagation and topological traversal
-│
-├── examples/
-│   └── simple_regression.py  # Linear regression using custom autograd
-│
-├── notes/
-│   └── autograd_study.ipynb  # Exploratory study using PyTorch autograd
-│
-└── README.md
+<p data-start="1375" data-end="1561">autograd-from-scratch/<br>
+├── autograd/<br>
+│   ├── tensor.py<br>
+│   ├── ops.py<br>
+│   └── backward.py<br>
+├── examples/<br>
+│   └── simple_regression.py<br>
+├── notes/<br>
+│   └── autograd_study.ipynb<br>
+└── README.md</p>
 
 
 The notebook in `notes/` was used for experimentation and comparison with PyTorch autograd.
