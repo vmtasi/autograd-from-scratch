@@ -3,12 +3,13 @@ import numpy as np
 def add(a, b):
     from .tensor import Tensor
     b = b if isinstance(b, Tensor) else Tensor(b)
-    out = Tensor(a.data + b.data, _children=(a, b), _op='+')
+    # Propagate the flag
+    requires_grad = a.requires_grad or b.requires_grad
+    out = Tensor(a.data + b.data, _children=(a, b), _op='+', requires_grad=requires_grad)
 
     def _backward():
         if a.requires_grad:
             grad_a = out.grad
-            # If 'a' was broadcasted, sum the gradient back to original shape
             while grad_a.ndim > a.data.ndim:
                 grad_a = grad_a.sum(axis=0)
             for i, dim in enumerate(a.data.shape):
@@ -18,7 +19,6 @@ def add(a, b):
             
         if b.requires_grad:
             grad_b = out.grad
-            # If 'b' was broadcasted, sum the back to original shape
             while grad_b.ndim > b.data.ndim:
                 grad_b = grad_b.sum(axis=0)
             for i, dim in enumerate(b.data.shape):
@@ -32,7 +32,9 @@ def add(a, b):
 def mul(a, b):
     from .tensor import Tensor
     b = b if isinstance(b, Tensor) else Tensor(b)
-    out = Tensor(a.data * b.data, _children=(a, b), _op='*')
+    # FIX: Propagate requires_grad
+    requires_grad = a.requires_grad or b.requires_grad
+    out = Tensor(a.data * b.data, _children=(a, b), _op='*', requires_grad=requires_grad)
 
     def _backward():
         if a.requires_grad:
@@ -44,25 +46,25 @@ def mul(a, b):
 
 def matmul(a, b):
     from .tensor import Tensor
-    out = Tensor(np.dot(a.data, b.data), _children=(a, b), _op='matmul')
+    # FIX: Propagate requires_grad
+    requires_grad = a.requires_grad or b.requires_grad
+    out = Tensor(np.dot(a.data, b.data), _children=(a, b), _op='matmul', requires_grad=requires_grad)
 
     def _backward():
         if a.requires_grad:
-            # dL/dA = dL/dOut @ B.T
             a.grad += np.dot(out.grad, b.data.T)
         if b.requires_grad:
-            # dL/dB = A.T @ dL/dOut
             b.grad += np.dot(a.data.T, out.grad)
     out._backward = _backward
     return out
 
 def mean(a):
     from .tensor import Tensor
-    out = Tensor(np.mean(a.data), _children=(a,), _op='mean')
+    # FIX: Propagate requires_grad
+    out = Tensor(np.mean(a.data), _children=(a,), _op='mean', requires_grad=a.requires_grad)
 
     def _backward():
         if a.requires_grad:
-            # The gradient of the mean is 1/N for every element
             a.grad += (np.ones_like(a.data) / a.data.size) * out.grad
     out._backward = _backward
     return out
