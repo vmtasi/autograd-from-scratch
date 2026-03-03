@@ -23,6 +23,8 @@ autograd-from-scratch/
 │   └── backward.py   # Backpropagation engine (topological sort)
 ├── examples/
 │   └── simple_regression.py  # Linear regression using custom autograd
+│   └── complex_graph.py      # Multi-path gradient verification
+└── README.md
 ```
 
 ## How It Works
