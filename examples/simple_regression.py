@@ -1,7 +1,7 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '...')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 import numpy as np
@@ -15,7 +15,7 @@ y_raw = 2.5 * x_raw + 0.8 + np.random.normal(0, 0.5, x_raw.shape)
 X = Tensor(x_raw)
 Y = Tensor(y_raw)
 
-W = Tensor(np.random.random.randn(1, 1), requires_grad = True)
+W = Tensor(np.random.randn(1, 1), requires_grad = True)
 B = Tensor(np.random.randn(1), requires_grad=True)
 
 learning_rate = 0.001

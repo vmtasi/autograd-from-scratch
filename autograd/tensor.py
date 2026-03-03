@@ -19,6 +19,10 @@ class Tensor:
     def backward(self):
         """Triggers the reverse-mode autodiff engine."""
         backward(self)
+    
+    def zero_grad(self):
+        """Resets the gradient to zero."""
+        self.grad = np.zeros_like(self.data)
 
     # Operator Overloading
     def __add__(self, other):
@@ -36,3 +40,9 @@ class Tensor:
     # Sugar for @ operator
     def __rmatmul__(self, other):
         return self.__matmul__(other)
+    def mean(self):
+        from .ops import mean
+        return mean(self)
+
+    def __repr__(self):
+        return f"Tensor(data={self.data.shape}, op={self._op})"
