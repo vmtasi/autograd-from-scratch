@@ -13,8 +13,6 @@ The goal of this project is to understand how computational graphs are built and
 The engine builds a dynamic computational graph during the forward pass and computes gradients by explicitly traversing this graph in reverse order during the backward pass. All gradient computations are implemented manually using the chain rule.
 
 
----
-
 ## Project Structure
 
 ```text
