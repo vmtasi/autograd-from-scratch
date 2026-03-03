@@ -2,7 +2,7 @@
 
 This repository contains a small automatic differentiation (autograd) engine implemented from scratch using NumPy.
 
-This project was built to deepen understanding of how automatic differentiation systems work internally.
+I built this project to deepen understanding of how automatic differentiation systems work internally.
 
 The goal of this project is to understand how computational graphs are built and how gradients are propagated using reverse-mode automatic differentiation, rather than relying on existing framework implementations.
 
