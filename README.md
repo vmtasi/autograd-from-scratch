@@ -2,6 +2,8 @@
 
 This repository contains a small automatic differentiation (autograd) engine implemented from scratch using NumPy.
 
+This project was built to deepen understanding of how automatic differentiation systems work internally.
+
 The goal of this project is to understand how computational graphs are built and how gradients are propagated using reverse-mode automatic differentiation, rather than relying on existing framework implementations.
 
 
@@ -49,13 +51,10 @@ y.backward()
 
 print("Gradient:", x.grad)  # Expected: 8.0
 
----
 
 ## Verification
 
 To validate the implementation, the engine was tested on simple algebraic expressions with shared subgraphs and on linear regression trained using mean squared error loss and gradient descent. In all cases, computed gradients matched analytical expectations.
-
----
 
 ## Limitations
 
@@ -63,9 +62,3 @@ To validate the implementation, the engine was tested on simple algebraic expres
 - CPU-only (NumPy backend)
 - Limited set of supported operations
 - No full broadcasting or advanced memory optimizations
-
----
-
-## Notes
-
-This project was built to deepen understanding of how automatic differentiation systems work internally.
